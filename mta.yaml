@@ -1,0 +1,42 @@
+_schema-version: "3.2"
+ID: ssimonabt.webshop
+version: 0.0.1
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm install
+        - npm run build:workspaces
+modules:
+  - name: ssimonabt.webshop-ui-deployer
+    type: com.sap.application.content
+    path: .
+    requires:
+      - name: ssimonabt.webshop-auth
+      - name: ssimonabt.webshop-app-front
+        parameters:
+          content-target: true
+    build-parameters:
+      build-result: resources
+      requires:
+        - artifacts:
+            - dist/uimodule-content.zip
+          name: uimodule
+          target-path: resources/
+  - name: uimodule
+    type: html5
+    path: uimodule
+    build-parameters:
+      supported-platforms: []
+resources:
+  - name: ssimonabt.webshop-app-front
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: app-front
+      service-plan: developer
+  - name: ssimonabt.webshop-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      path: ./xs-security.json
+      service: xsuaa
+      service-plan: application
