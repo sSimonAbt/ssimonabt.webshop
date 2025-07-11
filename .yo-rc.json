@@ -10,6 +10,9 @@
     "ui5Libs": "Local resources (SAPUI5)",
     "newDir": true,
     "initRepo": true,
-    "projectId": "ssimonabt.webshop"
+    "projectId": "ssimonabt.webshop",
+    "uimodules": [
+      "uimodule"
+    ]
   }
 }

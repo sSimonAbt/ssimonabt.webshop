@@ -16,6 +16,7 @@ modules:
       - name: ssimonabt.webshop-app-front
         parameters:
           content-target: true
+      - name: srv-api
     build-parameters:
       build-result: resources
       requires:
@@ -23,11 +24,42 @@ modules:
             - dist/uimodule-content.zip
           name: uimodule
           target-path: resources/
+    parameters:
+      config:
+        destinations:
+          - name: server
+            url: ~{srv-api/srv-url}
+            forwardAuthToken: true
   - name: uimodule
     type: html5
     path: uimodule
     build-parameters:
       supported-platforms: []
+  - name: ssimonabt.webshop-server-postgres-deployer
+    type: nodejs
+    path: server/gen/pg
+    parameters:
+      buildpack: nodejs_buildpack
+      no-route: true
+      no-start: true
+      tasks:
+        - name: deploy-to-postgresql
+          command: npm start
+    requires:
+      - name: ssimonabt.webshop-server-postgres
+  - name: ssimonabt.webshop-server-srv
+    type: nodejs
+    path: server/gen/srv
+    parameters:
+      instances: 1
+      buildpack: nodejs_buildpack
+    provides:
+      - name: srv-api
+        properties:
+          srv-url: ${default-url}
+    requires:
+      - name: ssimonabt.webshop-auth
+      - name: ssimonabt.webshop-server-postgres
 resources:
   - name: ssimonabt.webshop-app-front
     type: org.cloudfoundry.managed-service
@@ -37,6 +69,11 @@ resources:
   - name: ssimonabt.webshop-auth
     type: org.cloudfoundry.managed-service
     parameters:
-      path: ./xs-security.json
+      path: server/xs-security.json
       service: xsuaa
       service-plan: application
+  - name: ssimonabt.webshop-server-postgres
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: postgresql-db
+      service-plan: development

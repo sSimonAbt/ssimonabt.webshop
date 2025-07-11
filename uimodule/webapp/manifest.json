@@ -13,6 +13,17 @@
         "sourceTemplate": {
             "id": "",
             "version": ""
+        },
+        "dataSources": {
+            "defaultDataSource": {
+                "uri": "/odata/v4/catalog/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "localUri": "localService/metadata.xml",
+                    "odataVersion": "4.0"
+                }
+            }
         }
     },
     "sap.ui": {
@@ -50,6 +61,16 @@
                 "type": "sap.ui.model.resource.ResourceModel",
                 "settings": {
                     "bundleName": "uimodule.i18n.i18n"
+                }
+            },
+            "": {
+                "dataSource": "defaultDataSource",
+                "preload": true,
+                "settings": {
+                    "synchronizationMode": "None",
+                    "operationMode": "Server",
+                    "autoExpandSelect": true,
+                    "earlyRequests": true
                 }
             }
         },
