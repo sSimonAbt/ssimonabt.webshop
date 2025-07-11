@@ -10,7 +10,6 @@ entity Products {
   
 
 }
-
 entity Customers {
 key ID : UUID;
 
@@ -29,6 +28,14 @@ entity Orders {
 key ID : UUID; 
 orderedAt : Timestamp; 
 orderedBy : Association to Customers;
+Status : String;
+item : Association to many OrderItems;
+}
 
+entity OrderItems {
 
+key ID : UUID;
+product : Association to Products;
+quantity : Int16;
+Status : String; 
 }
