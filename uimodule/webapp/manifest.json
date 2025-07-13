@@ -11,9 +11,8 @@
         "description": "{{appDescription}}",
         "resources": "resources.json",
         "sourceTemplate": {
-            "id": "@sap/ux-app-migrator:freestyle",
-            "version": "1.18.2",
-            "toolsId": "34904610-11d0-426c-af15-4356c7bdd3e1"
+            "id": "",
+            "version": ""
         },
         "dataSources": {
             "defaultDataSource": {
